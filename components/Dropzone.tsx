@@ -4,7 +4,7 @@ import { Button } from './Button';
 import { DocumentIcon } from '@heroicons/react/outline';
 
 interface DropzoneProps {
-  onUpload: (file: File) => void;
+  onUpload: (file: Blob) => void;
 }
 
 const activeStyle = {
@@ -21,7 +21,7 @@ const rejectStyle = {
 
 export const Dropzone: FC<DropzoneProps> = ({ onUpload }) => {
   const [loader, setLoader] = useState(false);
-  const onDrop = useCallback((acceptedFiles: File[]) => {
+  const onDrop = useCallback((acceptedFiles: Blob[]) => {
     const item = acceptedFiles[acceptedFiles.length - 1];
     onUpload(item);
     setLoader(false);
