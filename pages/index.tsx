@@ -57,7 +57,6 @@ export default function Home() {
                 />
               </div>
             </Card>
-            {/* <div>{!isLoading && !error ? JSON.stringify(data) : null}</div> */}
           </div>
         </div>
       ) : null}
