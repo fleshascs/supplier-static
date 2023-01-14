@@ -1,11 +1,11 @@
 import { Listbox, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
-export function ExcelColumnSelect({ items, selected, setSelected }) {
+export function Select({ items, selected, setSelected }) {
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className='relative mt-1 w-full'>
-        <Listbox.Button className='relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left  focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm'>
+        <Listbox.Button className='relative w-full rounded-lg bg-white py-2  pr-10 text-left  focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer'>
           <span className='block truncate'>{selected}</span>
         </Listbox.Button>
         <Transition

@@ -1,10 +1,10 @@
-import { read, utils, writeFileXLSX } from 'xlsx';
+import { read, utils, WorkBook, WorkSheet, writeFileXLSX } from 'xlsx';
 import slugify from 'slugify';
 import { SearchValue } from '../components/SearchField';
 
 export type Row = Record<string, string>;
 
-export function loadWorkbook(file: Blob) {
+export function loadWorkbook(file: Blob): Promise<WorkBook> {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = function (e) {
@@ -15,14 +15,14 @@ export function loadWorkbook(file: Blob) {
   });
 }
 
-export function getSheetData(workbook): Row[] {
-  const sheet = workbook.Sheets[workbook.SheetNames[1]];
+export function getSheetData(sheet: WorkSheet): Row[] {
+  // const sheet = workbook.Sheets[workbook.SheetNames[1]];
   const rows = utils.sheet_to_json(sheet) as Row[];
   return rows;
 }
 
-export async function processSheet(workbook, searchQueries: SearchValue[]) {
-  const rows = getSheetData(workbook);
+export async function processSheet(sheet: WorkSheet, searchQueries: SearchValue[]) {
+  const rows = getSheetData(sheet);
 
   const andGroups = searchQueries.reduce((group, q) => {
     group[q.column] = group[q.column] ?? [];

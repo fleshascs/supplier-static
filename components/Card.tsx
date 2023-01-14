@@ -11,7 +11,7 @@ const Card: FC<{ children: ReactNode; className?: string; innerPadding?: boolean
       className={clsx(
         className,
         { 'p-2 sm:p-6': innerPadding },
-        'w-full text-md mb-4 rounded-lg bg-white shadow-md'
+        'w-full text-md  rounded-lg bg-white shadow-md'
       )}
     >
       {children}

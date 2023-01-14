@@ -28,14 +28,10 @@ export const SearchField: FC<SearchFieldProps> = ({
   const [rawSearchValue, setRawSearchValue] = useState('');
   const [searchValue, setSearchValue] = useState('');
 
-  async function queryFromFuse(query) {
-    return fuse.search(query);
-  }
-
   const { isLoading, error, data } = useQuery<any, Error>(
     'query' + searchValue,
     () => {
-      return queryFromFuse(searchValue);
+      return fuse.search(searchValue);
     },
     { enabled: !!searchValue }
   );
