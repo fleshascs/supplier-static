@@ -1,0 +1,11 @@
+/* @screen sm {
+
+} */
+
+@media (max-width: theme('screens.sm')) {
+  .responsiveth > * {
+    writing-mode: vertical-rl;
+    transform: rotate(-180deg);
+    /* @apply rotate-45; */
+  }
+}
