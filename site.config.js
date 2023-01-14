@@ -5,7 +5,7 @@ const domain = process.env.GH_PAGES
 
 module.exports = {
   siteName: 'Supplier',
-  apiUrl: 'https://cdn.cs-boost.lt',
+  apiUrl: 'https://dl.fleshas.lt',
   domain,
   defaultTitle: 'Supplier',
   defaultDescription: 'supplier',
