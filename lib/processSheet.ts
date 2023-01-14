@@ -35,9 +35,8 @@ export async function processSheet(workbook, searchQueries: string[], categories
 }
 
 export function getCategories(rows: Row[], categoriesColumn: string) {
-  const categories = new Set();
-  rows.forEach((item) => {
-    item[categoriesColumn].split(',').forEach((c) => categories.add(c));
-  });
-  return categories;
+  return rows.reduce((set, row) => {
+    row[categoriesColumn].split(',').forEach((c) => set.add(c));
+    return set;
+  }, new Set());
 }
