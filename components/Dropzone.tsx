@@ -21,9 +21,8 @@ const rejectStyle = {
 
 export const Dropzone: FC<DropzoneProps> = ({ onUpload }) => {
   const [loader, setLoader] = useState(false);
-  const onDrop = useCallback((acceptedFiles) => {
+  const onDrop = useCallback((acceptedFiles: File[]) => {
     const item = acceptedFiles[acceptedFiles.length - 1];
-    console.log('item', item);
     onUpload(item);
     setLoader(false);
   }, []);
