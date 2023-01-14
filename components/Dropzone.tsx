@@ -47,7 +47,7 @@ export const Dropzone: FC<DropzoneProps> = ({ onUpload }) => {
     <>
       <Button variant='dashed' {...getRootProps({ style })}>
         <DocumentIcon className='h-5 w-5' />
-        <span className='hidden md:inline'>{loader ? 'Loading...' : 'Upload xlsx file'} </span>
+        <span className='md:inline'>{loader ? 'Loading...' : 'Upload xlsx file'} </span>
       </Button>
       <input {...getInputProps()} />
     </>
