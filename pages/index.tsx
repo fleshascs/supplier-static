@@ -3,8 +3,6 @@ import Card from '../components/Card';
 import { SearchField } from '../components/SearchField';
 import { Dropzone } from '../components/Dropzone';
 import { Button } from '../components/Button';
-import DownloadIcon from '@heroicons/react/outline/DownloadIcon';
-import { TextField } from '../components/TextField';
 
 export default function Home() {
   const [searchValue, setSearchValue] = useState('');
