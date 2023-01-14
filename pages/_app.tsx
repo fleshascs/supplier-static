@@ -3,7 +3,6 @@ import Head from 'next/head';
 import Layout from '../components/Layout';
 import { QueryClientProvider } from 'react-query';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { buildBreadcrumbs } from '../components/utils';
 import { queryClient } from '../components/reactQueryClient';
 // import { ReactQueryDevtools } from 'react-query/devtools';
@@ -15,20 +14,6 @@ export default function App({ Component, pageProps }) {
   const canonicalURL = process.env.domain + router.pathname;
   const _title = meta.title ?? process.env.defaultTitle;
   const _description = meta.description ?? process.env.defaultDescription;
-
-  useEffect(() => {
-    const handleRouteChange = () => {
-      // eslint-disable-next-line
-      // @ts-ignore google analytics script
-      ga('send', 'pageview');
-    };
-
-    router.events.on('routeChangeComplete', handleRouteChange);
-
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router.events]);
 
   return (
     <>
