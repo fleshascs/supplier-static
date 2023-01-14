@@ -1,5 +1,6 @@
 import { read, utils, writeFileXLSX } from 'xlsx';
 import slugify from 'slugify';
+import { SearchValue } from '../components/SearchField';
 
 export type Row = Record<string, string>;
 
@@ -20,18 +21,32 @@ export function getSheetData(workbook): Row[] {
   return rows;
 }
 
-export async function processSheet(workbook, searchQueries: string[], categoriesColumn: string) {
+export async function processSheet(workbook, searchQueries: SearchValue[]) {
   const rows = getSheetData(workbook);
-  const filterByCategory = (queries: string[]) =>
-    rows.filter((item) => queries.some((q) => item[categoriesColumn].includes(q)));
-  const filtered = filterByCategory(searchQueries);
+
+  const andGroups = searchQueries.reduce((group, q) => {
+    group[q.column] = group[q.column] ?? [];
+    group[q.column].push(q.value);
+    return group;
+  }, {});
+
+  const filtered = rows.filter((item) =>
+    Object.keys(andGroups).every((column) => {
+      const queries = andGroups[column];
+      return queries.some((q: string) => item[column].includes(q));
+    })
+  );
+
+  const listOfQueries = Object.values(andGroups).flat();
+  const sheetName = listOfQueries.join(',').substring(0, 30); // 31 char is maximum sheet name length
+  const xlsxName = slugify(listOfQueries.join('_').substring(0, 50));
 
   const newWorkbook = utils.book_new();
   const worksheet = utils.json_to_sheet(filtered);
   worksheet['!cols'] = [{ wch: 20 }, { wch: 30 }, { wch: 50 }, { wch: 50 }];
-  utils.book_append_sheet(newWorkbook, worksheet, searchQueries.join(','));
+  utils.book_append_sheet(newWorkbook, worksheet, sheetName);
 
-  writeFileXLSX(newWorkbook, slugify(searchQueries.join('_')) + '.xlsx');
+  writeFileXLSX(newWorkbook, xlsxName + '.xlsx');
 }
 
 export function getCategories(rows: Row[], categoriesColumn: string) {

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import Card from '../components/Card';
-import { SearchField } from '../components/SearchField';
+import { SearchField, SearchValue } from '../components/SearchField';
 import { Dropzone } from '../components/Dropzone';
 import { Button } from '../components/Button';
 import { getCategories, getSheetData, loadWorkbook, processSheet } from '../lib/processSheet';
@@ -8,7 +8,7 @@ import Fuse from 'fuse.js';
 import { ExcelColumnSelect } from '../components/ExcelColumnSelect';
 
 export default function Home() {
-  const [searchValues, setSearchValues] = useState([]);
+  const [searchValues, setSearchValues] = useState<SearchValue[]>([]);
   const [categories, setCategories] = useState(null);
   const file = useRef(null);
   const workbook = useRef(null);
@@ -46,14 +46,16 @@ export default function Home() {
       return;
     }
 
-    const searchQueries = searchValues.map((q) => q.trim()).filter((q) => !!q.length);
+    const searchQueries = searchValues
+      .map((q) => ({ ...q, value: q.value.trim() }))
+      .filter((q) => !!q.value.length);
 
     if (!searchQueries.length) {
       alert('Category filter can not be empty.');
       return;
     }
 
-    processSheet(workbook.current, searchQueries, selectedColumn).catch((e) => {
+    processSheet(workbook.current, searchQueries).catch((e) => {
       alert('Failed.');
     });
   };
@@ -98,7 +100,8 @@ export default function Home() {
             fuse={categories}
             placeholder='Categories to filter'
             searchValues={searchValues}
-            setSearchValues={(values) => setSearchValues(values)}
+            setSearchValues={setSearchValues}
+            selectedColumn={selectedColumn}
           />
         </div>
       ) : null}

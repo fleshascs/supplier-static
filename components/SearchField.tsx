@@ -6,15 +6,22 @@ import { useQuery } from 'react-query';
 import { SearchIcon } from '@heroicons/react/outline';
 import Card from './Card';
 
+export type SearchValue = {
+  value: string;
+  column: string;
+};
+
 type SearchFieldProps = Omit<TextFieldProps, 'value'> & {
-  searchValues: string[];
-  setSearchValues: (val: string[]) => void;
+  searchValues: SearchValue[];
+  setSearchValues: (val: SearchValue[]) => void;
   fuse: any;
+  selectedColumn: string;
 };
 
 export const SearchField: FC<SearchFieldProps> = ({
   searchValues,
   setSearchValues,
+  selectedColumn,
   fuse,
   ...rest
 }) => {
@@ -49,11 +56,11 @@ export const SearchField: FC<SearchFieldProps> = ({
         <div className='flex flex-row items-center lg:space-x-4'>
           {searchValues.map((s, index) => (
             <div
-              key={s}
+              key={s.value}
               className='p-3 bg-gray-100 cursor-pointer'
               onClick={() => removeSearchValue(index)}
             >
-              {s}
+              {s.value}
             </div>
           ))}
 
@@ -72,9 +79,16 @@ export const SearchField: FC<SearchFieldProps> = ({
           <div className='mt-10 font-bold'>
             {data.map((d) => (
               <div
+                key={d.item}
                 className='cursor-pointer'
                 onClick={() => {
-                  setSearchValues([...searchValues, d.item]);
+                  setSearchValues([
+                    ...searchValues,
+                    {
+                      value: d.item,
+                      column: selectedColumn
+                    }
+                  ]);
                   setRawSearchValue('');
                 }}
               >
