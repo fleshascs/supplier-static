@@ -51,7 +51,10 @@ export async function processSheet(sheet: WorkSheet, searchQueries: SearchValue[
 
 export function getCategories(rows: Row[], categoriesColumn: string) {
   return rows.reduce((set, row) => {
-    row[categoriesColumn].split(',').forEach((c) => set.add(c));
+    row[categoriesColumn].split(',').forEach((c) => {
+      const category = c.trim();
+      category && set.add(category);
+    });
     return set;
   }, new Set());
 }
