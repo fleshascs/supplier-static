@@ -38,7 +38,7 @@ export async function processSheet(sheet: WorkSheet, searchQueries: SearchValue[
   );
 
   const listOfQueries = Object.values(andGroups).flat();
-  const sheetName = listOfQueries.join(',').substring(0, 30); // 31 char is maximum sheet name length
+  const sheetName = slugify(listOfQueries.join(',').substring(0, 30)); // 31 char is maximum sheet name length
   const xlsxName = slugify(listOfQueries.join('_').substring(0, 50));
 
   const newWorkbook = utils.book_new();
